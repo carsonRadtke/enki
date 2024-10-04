@@ -1,0 +1,30 @@
+{
+  "name": "enki",
+  "version": "0.0.1",
+  "description": "Discord Bot LLM",
+  "main": "build/bot.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carsonRadtke/enki.git"
+  },
+  "keywords": [
+    "LLM",
+    "AI",
+    "Discord",
+    "Bot"
+  ],
+  "author": "carson radtke",
+  "license": "GLWTPL",
+  "bugs": {
+    "url": "https://github.com/carsonRadtke/enki/issues"
+  },
+  "homepage": "https://github.com/carsonRadtke/enki#readme",
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "typescript": "^5.6.2"
+  }
+}

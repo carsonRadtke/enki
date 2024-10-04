@@ -1,0 +1,2 @@
+Variable,Required,Usage,
+ENKI_BOT_DISCORD_API_TOKEN,Yes,API token to authenticate with discord,
