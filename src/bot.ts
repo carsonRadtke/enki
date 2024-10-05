@@ -1,6 +1,23 @@
 import * as Discord from "discord.js"
 import { spawn } from "child_process"
 
+// TODO (@cradtke):
+//  - Refactor so making changes makes sense. This was a POC, so let's flesh it out.
+//  - Reply to users instead of just sending a message back in the chanel.
+//  - Make it feel like a real conversation. If the user 'replies' (via discord) to
+//    a message that Enki sent, the Enki should understand the context.
+//  - Allow users to tag @Enki. Enki should feel like a person, if it seems like the
+//    user is trying to talk to Enki, then Enki should respond.
+//  - Q: Is it reliable to ask Enki to reply with a JSON object that makes it easier to
+//       track context? Something like: { msg: string, context: string[] };
+//  - Update the Activity. It doesn't look right, come up with something good.
+//  - Improve the prompt - maybe have several themes that a user can choose from?
+//  - The 'pipe'ing feels clunky. Checkout how strace treats `$ echo hi | xargs echo`
+//    and see if we can mimic it.
+//  - Q: Is it possible to formulate the prompt so the user cannot interfere with it?
+//       i.e. The user shouldn't be able to say "Ignore the word limit..."
+//  - I should read A LOT about prompt engineering.
+
 const Client = new Discord.Client({
     intents: ["DirectMessages", "GuildMessages", "Guilds", "MessageContent"],
     partials: [Discord.Partials.Message, Discord.Partials.Channel],
