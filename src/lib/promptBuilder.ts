@@ -39,16 +39,16 @@ export class PromptBuilder {
         return this;
     }
 
-    private addReply(reply: Discord.Message): PromptBuilder {
-        this.replies = [...this.replies, { botSaid: true, content: reply.content }];
+    private addReply(cli: Discord.Client, reply: Discord.Message): PromptBuilder {
+        this.replies = [...this.replies, { botSaid: cli.user!.tag == reply.author.tag, content: reply.content }];
         return this;
     }
 
-    static async FromMessage(msg: Discord.Message): Promise<PromptBuilder> {
+    static async FromMessage(cli: Discord.Client, msg: Discord.Message): Promise<PromptBuilder> {
         let pb = new PromptBuilder().addPrompt(msg.content);
         while (msg.type === Discord.MessageType.Reply) {
             const original = await msg.channel.messages.fetch(msg.reference!.messageId!);
-            pb = pb.addReply(original);
+            pb = pb.addReply(cli, original);
             msg = original;
         }
         return pb;
