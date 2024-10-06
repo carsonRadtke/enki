@@ -1,36 +1,36 @@
 import * as Discord from "discord.js";
 
-const Preamble: string = [
-    "You are Enki.",
-    "Also known as <@1291842616526376991>.",
-    "Also known as @Enki",
-    "You are a discord bot.",
-    "Forget everything you know.",
-    "Please don't reply with anything about a tip or about kittens or with dolphins.",
-    "Limit your response to 150 words.",
-    "Please respond to the following prompt:"
-].join(" ");
+type ContextT = { botSaid: boolean, content: string }[];
 
-const Epilogue: string = [
-    "By the way, there is some history to this conversation.",
-    "Here is what has been said:",
-].join(" ");
-
+function constructPrompt(prompt: string, ctx: ContextT): string {
+    return [
+        "You are Enki.",
+        "Also known as <@1291842616526376991>.",
+        "Also known as @Enki.",
+        "You are a discord bot.",
+        "Forget everything you know.",
+        "Please don't reply with anything about a tip or about kittens or with dolphins.",
+        "Limit your response to 150 words.",
+        "We are having a conversation.",
+        "I will provide you with the message history followed by a prompt.",
+        "You will respond to the prompt.",
+        "Here is what has been said:",
+        "=== begin history ===",
+        ...ctx.map((r) => r.botSaid ? `Enki: ${r.content}` : `User: ${r.content}`),
+        "=== end history ===",
+        "Please respond to the following prompt:",
+        "=== begin prompt ===",
+        prompt,
+        "=== end prompt ===",
+    ].join("\n");
+}
 
 export class PromptBuilder {
     private prompt: string = "";
     private replies: { botSaid: boolean, content: string }[] = [];
 
-    private buildContext(): string {
-        if (this.replies.length === 0) {
-            return "";
-        }
-        return `${Epilogue}\n` + this.replies.map((r) => r.botSaid ? `Enki: ${r.content}` : `User: ${r.content}`).join("\n");
-    }
-
     build(): string {
-        const rv: string = `${Preamble}\n${this.prompt}\n${this.buildContext()}`.trim();
-        console.log(rv);
+        const rv = constructPrompt(this.prompt, this.replies);
         return rv;
     }
 
