@@ -20,10 +20,6 @@ async function askLLM(prompt: string): Promise<string> {
             modelProcess.kill();
             resolve(resp.join("").trim());
         });
-
-        modelProcess.on('error', (err) => {
-            console.error("oh shit", err);
-        });
     });
 }
 
