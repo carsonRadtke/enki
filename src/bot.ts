@@ -25,7 +25,7 @@ Client.on(Discord.Events.ClientReady, (cli: Discord.Client) => {
 
 Client.on(Discord.Events.MessageCreate, async (msg: Discord.Message) => {
     if (msg.channel instanceof Discord.TextChannel || msg.channel instanceof Discord.DMChannel) {
-        if (H.ShouldRespond(msg)) {
+        if (H.ShouldRespond(Client, msg)) {
             await msg.channel.sendTyping();
             const pb = await PromptBuilder.FromMessage(msg);
             await Enki.Respond(msg, pb.build());
