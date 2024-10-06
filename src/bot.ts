@@ -4,12 +4,10 @@ import * as E from "./lib/environ"
 import * as Enki from "./lib/enki"
 import { PromptBuilder } from "./lib/promptBuilder";
 
-// TODO (@cradtke): //  - Refactor so making changes makes sense. This was a POC, so let's flesh it out.
+// TODO (@cradtke):
 //  - Q: Is it reliable to ask Enki to reply with a JSON object that makes it easier to
 //       track context? Something like: { msg: string, context: string[] };
 //  - Q: Is it possible to formulate the prompt so the user cannot interfere with it?
-//       i.e. The user shouldn't be able to say "Ignore the word limit..."
-//  - I should read A LOT about prompt engineering.
 
 const Client = new Discord.Client({
     intents: ["DirectMessages", "GuildMessages", "Guilds", "MessageContent"],

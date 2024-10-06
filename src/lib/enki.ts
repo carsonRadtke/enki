@@ -3,12 +3,20 @@ import * as E from "./environ"
 import { spawn } from "child_process"
 
 async function askLLM(prompt: string): Promise<string> {
-    // TODO (@carsonRadtke): handle the possibility of an error.
-    return new Promise<string>((resolve, _) => {
+    return new Promise<string>((resolve, reject) => {
         const promptProcess = spawn("echo", [prompt]);
         const modelProcess = spawn("ollama", ["run", E.OllamaModelName]);
 
-        promptProcess.stdout.pipe(modelProcess.stdin);
+        promptProcess.stdout.on('data', (data) => {
+            modelProcess.stdin.write(data);
+        });
+
+        promptProcess.on('close', (code) => {
+            if (code !== 0) {
+                reject(`echo exited with code ${code}`);
+            }
+            modelProcess.stdin.end();
+        });
 
         let resp: string[] = [];
 
@@ -16,10 +24,13 @@ async function askLLM(prompt: string): Promise<string> {
             resp = [...resp, data.toLocaleString()];
         });
 
-        modelProcess.stdout.on('end', () => {
-            modelProcess.kill();
-            resolve(resp.join("").trim());
-        });
+        modelProcess.on('close', (code) => {
+            if (code !== 0) {
+                reject(`ollama exited with code ${code}`);
+            } else {
+                resolve(resp.join("").trim());
+            }
+        })
     });
 }
 

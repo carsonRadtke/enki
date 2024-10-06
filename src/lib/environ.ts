@@ -10,7 +10,5 @@ if (E.ENKI_BOT_OLLAMA_MODEL_NAME === undefined) {
     exit(1);
 }
 
-// TODO (@carsonRadtke): Having to add the '!' is unexpected. I would expect the type
-//                       to know the types must be string.                        
-export const DiscordAPIToken: string = E.ENKI_BOT_DISCORD_API_TOKEN!;
-export const OllamaModelName: string = E.ENKI_BOT_OLLAMA_MODEL_NAME!;
+export const DiscordAPIToken: string = E.ENKI_BOT_DISCORD_API_TOKEN;
+export const OllamaModelName: string = E.ENKI_BOT_OLLAMA_MODEL_NAME;
